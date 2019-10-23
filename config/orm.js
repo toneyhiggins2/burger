@@ -7,28 +7,28 @@ var connection = require("./connection.js");
 // These help avoid SQL injection
 // https://en.wikipedia.org/wiki/SQL_injection
 var orm = {
-  selectAll: function(tableInput, colToSearch, valOfCol) {
-    var queryString = "SELECT * FROM ?? WHERE ?? = ?";
-    connection.query(queryString, [tableInput, colToSearch, valOfCol], function(err, result) {
+  selectAll: function(tableInput, colToSearch) {
+    var queryString = "SELECT * FROM ??";
+    connection.query(queryString, [tableInput, colToSearch], function(err, result) {
       if (err) throw err;
       console.log(result);
     });
   },
-  insertOne: function(whatToSelect, table, orderCol) {
-    var queryString = "SELECT ?? FROM ?? ORDER BY ?? DESC";
+  insertOne: function(table, tableValue) {
+    var queryString = "INSERT INTO ?? VALUES ??";
     console.log(queryString);
-    connection.query(queryString, [whatToSelect, table, orderCol], function(err, result) {
+    connection.query(queryString, [table, tableValue], function(err, result) {
       if (err) throw err;
       console.log(result);
     });
   },
-  updateOne: function(tableOneCol, tableTwoForeignKey, tableOne, tableTwo) {
+  updateOne: function(table, colName, updateValue, updateID) {
     var queryString =
-      "SELECT ??, COUNT(??) AS count FROM ?? LEFT JOIN ?? ON ??.??= ??.id GROUP BY ?? ORDER BY count DESC LIMIT 1";
+      "SELECT ?? FROM ?? SET ?? WHERE ?? = ?";
 
     connection.query(
       queryString,
-      [tableOneCol, tableOneCol, tableOne, tableTwo, tableTwo, tableTwoForeignKey, tableOne, tableOneCol],
+      [table, colName, updateValue, updateID],
       function(err, result) {
         if (err) throw err;
         console.log(result);
