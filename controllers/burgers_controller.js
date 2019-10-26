@@ -16,23 +16,24 @@ router.get("/", function(req, res) {
   });
 });
 
+router.get("/api/burgers", function(req, res) {
+    burger.all(function(data) {
+        res.json(data);
+    })
+})
+
 router.post("/api/burgers", function(req, res) {
-  burger.create(["name", "sleepy"], [req.body.name, req.body.sleepy], function(result) {
+  burger.create("burger_name", req.body.burger_name, function(result) {
     // Send back the ID of the new quote
-    res.json({ id: result.insertId });
+    console.log(result)
+    res.status(204).end();
   });
 });
 
 router.put("/api/burgers/:id", function(req, res) {
-  var condition = "id = " + req.params.id;
+  
 
-  console.log("condition", condition);
-
-  burger.update(
-    {
-      sleepy: req.body.sleepy
-    },
-    condition,
+  burger.update("devoured", req.body.devoured, "id", req.params.id,
     function(result) {
       if (result.changedRows === 0) {
         // If no rows were changed, then the ID must not exist, so 404
