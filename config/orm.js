@@ -8,30 +8,29 @@ var connection = require("./connection.js");
 // https://en.wikipedia.org/wiki/SQL_injection
 var orm = {
   selectAll: function(tableInput, colToSearch) {
-    var queryString = "SELECT * FROM ??";
+    var queryString = `SELECT * FROM ${tableInput}`;
     connection.query(queryString, [tableInput, colToSearch], function(err, result) {
       if (err) throw err;
       console.log(result);
     });
   },
-  insertOne: function(table, tableValue) {
-    var queryString = "INSERT INTO ?? VALUES ??";
+  insertOne: function(table, colName, value, cb) {
+    var queryString = `INSERT INTO ${table} (${colName}) VALUES ('${value}');`
     console.log(queryString);
-    connection.query(queryString, [table, tableValue], function(err, result) {
+    connection.query(queryString, function(err, result) {
       if (err) throw err;
-      console.log(result);
+      cb(result);
     });
   },
-  updateOne: function(table, colName, updateValue, updateID) {
+  updateOne: function(table, colName, updateValue, updateID, value, cb) {
     var queryString =
-      "SELECT ?? FROM ?? SET ?? WHERE ?? = ?";
+      `UPDATE ${table} SET ${colName} = ${updateValue} WHERE ${updateID} = ${value}`;
 
     connection.query(
       queryString,
-      [table, colName, updateValue, updateID],
       function(err, result) {
         if (err) throw err;
-        console.log(result);
+        cb(result);
       }
     );
   }
