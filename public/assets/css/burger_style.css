@@ -1,0 +1,11 @@
+nav{
+    text-align: center;
+}
+
+body{
+    background-color: hsl(44, 100%, 50%);
+}
+
+.container{
+    padding-bottom: 100px;
+}
