@@ -11,7 +11,7 @@ router.get("/", function(req, res) {
     var hbsObject = {
       burgers: data
     };
-    console.log(hbsObject);
+    console.log("burgers: ", hbsObject);
     res.render("index", hbsObject);
   });
 });
@@ -23,9 +23,9 @@ router.get("/api/burgers", function(req, res) {
 })
 
 router.post("/api/burgers", function(req, res) {
-  burger.create("burger_name", req.body.burger_name, function(result) {
+  burger.create("burger_name", req.body.burgerName, function(result) {
     // Send back the ID of the new quote
-    console.log(result)
+    console.log("request body: ", req.body);
     res.status(204).end();
   });
 });

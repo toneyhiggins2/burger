@@ -9,6 +9,7 @@ $(document).ready(function () {
                 burgerName: $("#newBurger").val()
             }
         }
+        console.log("params: " ,params)
         $.ajax(`/api/burgers`, params).then((response)=>{
             // console.log(response);
             location.reload();
